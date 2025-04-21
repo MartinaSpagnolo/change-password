@@ -1,0 +1,41 @@
+{
+    "name": "hardikkhorasiya09/change-password",
+    "description": "Filament change password plugin.",
+    "version": "0.0.1",
+    "keywords": [
+        "hardikkhorasiya09",
+        "laravel",
+        "filament",
+        "filament-packages",
+        "filament-plugins",
+        "filament-change-password",
+        "filament-change-password-plugin",
+        "filament-change-password-package"
+    ],
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": "^8.2",
+        "filament/filament": "^3.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Hardikkhorasiya09\\ChangePassword\\": "src/"
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "authors": [
+        {
+            "name": "Hardikkhorasiya09",
+            "email": "hardik@trileotech.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Hardikkhorasiya09\\ChangePassword\\ChangePasswordServiceProvider"
+            ]
+        }
+    }
+}
