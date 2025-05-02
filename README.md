@@ -9,4 +9,4 @@ A simple and customizable Filament plugin that adds a "Change Password" page to 
 You can install the package via Composer:
 
 ```bash
-composer require hardikkhorasiya/change-password
+composer require hardikkhorasiya09/change-password
