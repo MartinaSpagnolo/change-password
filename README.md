@@ -62,5 +62,5 @@ Once installed and registered, a new Change Password page will appear in the use
 
 ## 📷 Screenshot
 
-![Change Password Page Screenshot](screenshots/image1.png)
-![Change Password Page Screenshot](screenshots/image2.png)
+![Change Password Page Screenshot](screenshots/dashboard-page.png)
+![Change Password Page Screenshot](screenshots/change-password-page.png)
