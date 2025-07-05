@@ -20,6 +20,8 @@ class ChangePasswordPage extends Page implements HasForms
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static string $view = 'change-password::filament.pages.change-password';
     protected static ?string $slug = 'change-password';
+
+    protected static ?string $title = 'Benvenuto!';
     protected static bool $shouldRegisterNavigation = false;
 
     public ?array $data = [];
@@ -38,39 +40,48 @@ class ChangePasswordPage extends Page implements HasForms
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('current_password')
-                    ->password()
-                    ->required()
-                    ->revealable(true)
-                    ->label('Current Password')
-                    ->rules([
-                        function () {
-                            return function (string $attribute, $value, Closure $fail) {
-                                if (! Hash::check($value, auth()->user()->password)) {
-                                    $fail('Current password is incorrect.');
-                                }
-                            };
-                        },
-                    ]),
 
-                Forms\Components\TextInput::make('new_password')
-                    ->password()
-                    ->required()
-                    ->same('password_confirmation')
-                    ->minLength(8)
-                    ->label('New Password')
-                    ->revealable(true),
+                \Filament\Forms\Components\Section::make('Cambio Password')
+                    ->description('Inserisci la Password fornita vie email e procedi con l\'inserimento di una nuova Password. Una volta effettuato il reset potrai procedere con la navigazione.')->aside()
+                    ->schema([
+                        Forms\Components\TextInput::make('current_password')
+                            ->label('Password attuale')
+                            ->password()
+                            ->required()
+                            ->revealable(true)
+                            ->rules([
+                                function () {
+                                    return function (string $attribute, $value, Closure $fail) {
+                                        if (!Hash::check($value, auth()->user()->password)) {
+                                            $fail('La Password inserita non è corretta.');
+                                        }
+                                    };
+                                },
+                            ]),
 
-                Forms\Components\TextInput::make('password_confirmation')
-                    ->password()
-                    ->required()
-                    ->label('Confirm New Password')
-                    ->revealable(true),
+                        Forms\Components\TextInput::make('new_password')
+                            ->password()
+                            ->required()
+                            ->same('password_confirmation')
+                            ->minLength(8)
+                            ->label('Nuova Password')
+                            ->revealable(true),
+
+                        Forms\Components\TextInput::make('password_confirmation')
+                            ->password()
+                            ->required()
+                            ->label('Conferma Password')
+                            ->revealable(true),
+                    ])
+
+
             ])
+
+
             ->statePath('data');
     }
 
-    public function save(): void
+    public function save()
     {
         $this->form->validate();
 
@@ -79,13 +90,14 @@ class ChangePasswordPage extends Page implements HasForms
         // Check if the current password is correct
         if (!Hash::check($data['current_password'], Auth::user()->password)) {
             throw ValidationException::withMessages([
-                'current_password' => 'The provided password does not match your current password.',
+                'current_password' => 'La password fornita non corrisponde alla password attuale.',
             ]);
         }
 
         // Update the password if validation passes
         Auth::user()->update([
             'password' => $data['new_password'],
+            'must_change_password' => false,
         ]);
 
         // Refill the form with the reset data
@@ -97,8 +109,12 @@ class ChangePasswordPage extends Page implements HasForms
 
         // Success notification
         Notification::make()
-            ->title('Password updated successfully!')
+            ->title('Password cambiata con successo!')
             ->success()
             ->send();
+
+        return redirect()->route('filament.client.pages.dashboard');
+
     }
 }
+
