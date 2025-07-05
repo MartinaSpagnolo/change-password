@@ -29,14 +29,15 @@ class ChangePasswordPlugin implements Plugin
     $panel
       ->pages([
         ChangePasswordPage::class,
-      ])
+      ]);
 //      ->userMenuItems([
 //        MenuItem::make()
 //          ->label('Change Password')
 //          ->url('/' . $panel->getId() .  '/change-password')
 //          ->icon('heroicon-o-key')
 //          ->visible(fn(): bool => self::canAccess()),
-//      ]);
+//      ])
+
   }
 
   public function boot(Panel $panel): void
